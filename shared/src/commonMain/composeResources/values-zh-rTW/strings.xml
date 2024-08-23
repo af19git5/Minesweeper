@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">踩地雷</string>
+    <string name="game_size">遊戲大小</string>
+    <string name="number_of_mines">地雷數</string>
+    <string name="count">數量</string>
+    <string name="go">開始</string>
+    <string name="x_less_notice">x不可小於1</string>
+    <string name="y_less_notice">y不可小於1</string>
+    <string name="mines_over_notice">地雷數不可大於等於格子數</string>
+</resources>

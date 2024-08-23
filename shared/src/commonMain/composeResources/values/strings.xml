@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Minesweeper</string>
+    <string name="game_size">Game size</string>
+    <string name="number_of_mines">Number of mines</string>
+    <string name="count">Count</string>
+    <string name="go">Go</string>
+    <string name="x_less_notice">X can't less than 1.</string>
+    <string name="y_less_notice">Y can't less than 1.</string>
+    <string name="mines_over_notice">Mines count can't more than box count.</string>
+</resources>
