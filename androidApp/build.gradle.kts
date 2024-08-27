@@ -43,6 +43,6 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.decompose)
-    implementation(libs.decompose.extensions.compose)
+    implementation(libs.decompose.extensions.android)
     debugImplementation(libs.compose.ui.tooling)
 }

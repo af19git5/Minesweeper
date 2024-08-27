@@ -4,11 +4,13 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import kotlinx.serialization.Serializable
 
-class RootComponent(context: ComponentContext) : ComponentContext by context {
+class RootComponent(context: ComponentContext) : ComponentContext by context, BackHandlerOwner {
 
     private val navigation = StackNavigation<Configuration>()
 
@@ -39,6 +41,10 @@ class RootComponent(context: ComponentContext) : ComponentContext by context {
                 )
             )
         }
+    }
+
+    fun onBackClicked() {
+        navigation.pop()
     }
 
     sealed class Child {
