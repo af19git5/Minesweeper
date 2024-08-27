@@ -20,6 +20,11 @@ import com.jimmyworks.minesweeper.styles.PaddingStyle
 import com.jimmyworks.minesweeper.styles.TextStyle
 import kotlinx.coroutines.delay
 
+/**
+ * Toast訊息物件
+ *
+ * @author Jimmy Kang
+ */
 class ToastMessage {
     val message: String
     val isShow: MutableState<Boolean>
@@ -35,6 +40,11 @@ class ToastMessage {
     }
 }
 
+/**
+ * Toast顯示物件
+ *
+ * @author Jimmy Kang
+ */
 @Composable
 fun Toast(
     message: State<ToastMessage>,

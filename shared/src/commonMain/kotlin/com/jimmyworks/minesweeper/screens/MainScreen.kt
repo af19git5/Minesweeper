@@ -48,7 +48,6 @@ import org.jetbrains.compose.resources.stringResource
  */
 @Composable
 fun MainScreen(component: MainComponent) {
-
     val x by component.x.subscribeAsState()
     val y by component.y.subscribeAsState()
     val minesCount by component.minesCount.subscribeAsState()

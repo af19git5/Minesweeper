@@ -2,6 +2,11 @@ package com.jimmyworks.minesweeper.styles
 
 import androidx.compose.ui.graphics.Color
 
+/**
+ * 顏色樣式
+ *
+ * @author Jimmy Kang
+ */
 class Colors {
     companion object {
         val primary = Color(0xff000000)

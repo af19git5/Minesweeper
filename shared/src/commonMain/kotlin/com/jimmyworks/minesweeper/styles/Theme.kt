@@ -4,6 +4,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
+/**
+ * 主題樣式
+ *
+ * @author Jimmy Kang
+ */
 class Theme {
     companion object {
         @Composable

@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
 import com.arkivanov.essenty.backhandler.BackHandler
+import com.jimmyworks.minesweeper.component.GameComponent
+import com.jimmyworks.minesweeper.component.MainComponent
 import com.jimmyworks.minesweeper.component.RootComponent
 import com.jimmyworks.minesweeper.screens.GameScreen
 import com.jimmyworks.minesweeper.screens.MainScreen
@@ -25,13 +27,19 @@ fun App(rootComponent: RootComponent) {
             )
         ) { child ->
             when (val instance = child.instance) {
-                is RootComponent.Child.MainChild -> MainScreen(instance.component)
-                is RootComponent.Child.GameChild -> GameScreen(instance.component)
+                is MainComponent -> MainScreen(instance)
+                is GameComponent -> GameScreen(instance)
             }
         }
     }
 }
 
+/**
+ * 返回動畫
+ *
+ * @param backHandler 返回監聽
+ * @param onBack 返回事件
+ */
 expect fun <C : Any, T : Any> backAnimation(
     backHandler: BackHandler,
     onBack: () -> Unit,

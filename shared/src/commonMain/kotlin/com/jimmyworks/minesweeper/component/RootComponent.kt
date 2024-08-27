@@ -12,56 +12,52 @@ import kotlinx.serialization.Serializable
 
 class RootComponent(context: ComponentContext) : ComponentContext by context, BackHandlerOwner {
 
-    private val navigation = StackNavigation<Configuration>()
+    /** 導轉器 */
+    private val navigation = StackNavigation<Screen>()
 
-    val childStack: Value<ChildStack<*, Child>> = childStack(
+    /** 子頁面堆疊 */
+    val childStack: Value<ChildStack<Screen, BasicComponent>> = childStack(
         source = navigation,
-        serializer = Configuration.serializer(),
-        initialConfiguration = Configuration.MainScreen,
+        serializer = Screen.serializer(),
+        initialConfiguration = Screen.MainScreen,
         handleBackButton = true,
         childFactory = ::createChild
     )
 
-    private fun createChild(configuration: Configuration, context: ComponentContext): Child {
-        return when (configuration) {
-            is Configuration.MainScreen -> Child.MainChild(
-                MainComponent(
-                    context
-                ) { x, y, minesCount ->
-                    navigation.pushNew(Configuration.GameScreen(x, y, minesCount))
-                }
-            )
+    /**
+     * 建立子頁面
+     *
+     * @param screen 頁面
+     * @param context ComponentContext
+     */
+    private fun createChild(screen: Screen, context: ComponentContext): BasicComponent {
+        return when (screen) {
+            is Screen.MainScreen -> MainComponent(
+                context
+            ) { x, y, minesCount ->
+                navigation.pushNew(Screen.GameScreen(x, y, minesCount))
+            }
 
-            is Configuration.GameScreen -> Child.GameChild(
-                GameComponent(
-                    context,
-                    configuration.x,
-                    configuration.y,
-                    configuration.minesCount
-                )
+            is Screen.GameScreen -> GameComponent(
+                context, screen.x, screen.y, screen.minesCount
             )
         }
     }
 
+    /** 返回鍵點擊事件 */
     fun onBackClicked() {
         navigation.pop()
     }
 
-    sealed class Child {
-        class MainChild(val component: MainComponent) : Child()
-        class GameChild(val component: GameComponent) : Child()
-    }
-
+    /** 頁面 */
     @Serializable
-    sealed class Configuration {
+    sealed class Screen {
         @Serializable
-        data object MainScreen : Configuration()
+        data object MainScreen : Screen()
 
         @Serializable
         data class GameScreen(
-            val x: Int,
-            val y: Int,
-            val minesCount: Int
-        ) : Configuration()
+            val x: Int, val y: Int, val minesCount: Int
+        ) : Screen()
     }
 }
