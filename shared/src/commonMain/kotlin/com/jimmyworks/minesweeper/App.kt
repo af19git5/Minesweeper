@@ -1,5 +1,6 @@
 package com.jimmyworks.minesweeper
 
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
@@ -19,16 +20,18 @@ import com.jimmyworks.minesweeper.styles.Theme
 @Composable
 fun App(rootComponent: RootComponent) {
     Theme.AppTheme {
-        Children(
-            stack = rootComponent.childStack,
-            animation = backAnimation(
-                backHandler = rootComponent.backHandler,
-                onBack = rootComponent::onBackClicked
-            )
-        ) { child ->
-            when (val instance = child.instance) {
-                is MainComponent -> MainScreen(instance)
-                is GameComponent -> GameScreen(instance)
+        Surface {
+            Children(
+                stack = rootComponent.childStack,
+                animation = backAnimation(
+                    backHandler = rootComponent.backHandler,
+                    onBack = rootComponent::onBackClicked
+                )
+            ) { child ->
+                when (val instance = child.instance) {
+                    is MainComponent -> MainScreen(instance)
+                    is GameComponent -> GameScreen(instance)
+                }
             }
         }
     }

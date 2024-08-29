@@ -8,4 +8,10 @@
     <string name="x_less_notice">x不可小於1</string>
     <string name="y_less_notice">y不可小於1</string>
     <string name="mines_over_notice">地雷數不可大於等於格子數</string>
+    <string name="back">返回</string>
+    <string name="reset">重置</string>
+    <string name="confirm">確認</string>
+    <string name="cancel">取消</string>
+    <string name="game_over">遊戲結束</string>
+    <string name="complete">恭喜完成</string>
 </resources>

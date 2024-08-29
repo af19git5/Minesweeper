@@ -9,45 +9,24 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.jimmyworks.minesweeper.styles.Colors
 import com.jimmyworks.minesweeper.styles.PaddingStyle
 import com.jimmyworks.minesweeper.styles.TextStyle
+import com.jimmyworks.minesweeper.vo.ToastVO
 import kotlinx.coroutines.delay
 
 /**
- * Toast訊息物件
- *
- * @author Jimmy Kang
- */
-class ToastMessage {
-    val message: String
-    val isShow: MutableState<Boolean>
-
-    constructor() {
-        this.message = ""
-        isShow = mutableStateOf(false)
-    }
-
-    constructor(message: String) {
-        this.message = message
-        isShow = mutableStateOf(true)
-    }
-}
-
-/**
- * Toast顯示物件
+ * Toast元件
  *
  * @author Jimmy Kang
  */
 @Composable
 fun Toast(
-    message: State<ToastMessage>,
+    message: State<ToastVO>,
     delay: Long = 2000L
 ) {
     AnimatedVisibility(message.value.isShow.value) {
@@ -65,7 +44,7 @@ fun Toast(
                 ) {
                     Text(
                         message.value.message,
-                        color = Colors.background,
+                        color = Colors.onPrimary,
                         style = TextStyle.textStyle
                     )
                 }

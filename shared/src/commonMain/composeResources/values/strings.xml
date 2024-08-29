@@ -8,4 +8,10 @@
     <string name="x_less_notice">X can't less than 1.</string>
     <string name="y_less_notice">Y can't less than 1.</string>
     <string name="mines_over_notice">Mines count can't more than box count.</string>
+    <string name="back">Back</string>
+    <string name="reset">Reset</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="game_over">Game Over</string>
+    <string name="complete">Complete</string>
 </resources>

@@ -31,7 +31,7 @@ class RootComponent(context: ComponentContext) : ComponentContext by context, Ba
      * @param context ComponentContext
      */
     private fun createChild(screen: Screen, context: ComponentContext): BasicComponent {
-        return when (screen) {
+        val component = when (screen) {
             is Screen.MainScreen -> MainComponent(
                 context
             ) { x, y, minesCount ->
@@ -42,6 +42,8 @@ class RootComponent(context: ComponentContext) : ComponentContext by context, Ba
                 context, screen.x, screen.y, screen.minesCount
             )
         }
+        component.onBackClicked = ::onBackClicked
+        return component
     }
 
     /** 返回鍵點擊事件 */

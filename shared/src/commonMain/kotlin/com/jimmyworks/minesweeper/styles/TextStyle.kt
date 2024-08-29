@@ -29,5 +29,9 @@ class TextStyle {
         val textStyle = TextStyle(
             fontSize = 20.sp
         )
+
+        val miniTextStyle = TextStyle(
+            fontSize = 16.sp
+        )
     }
 }

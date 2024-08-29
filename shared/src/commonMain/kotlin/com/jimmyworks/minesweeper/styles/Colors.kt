@@ -14,8 +14,8 @@ class Colors {
         val secondary = Color(0xFF03DAC6)
         val secondaryVariant = Color(0xFF018786)
         val background = Color(0xffffffff)
-        val surface = Color(0xffffffff)
-        val error = Color(0xFFB00020)
+        val surface = background
+        val error = Color(0xffcc0101)
         val onPrimary = Color(0xffffffff)
         val onSecondary = Color(0xff000000)
         val onBackground = Color(0xff000000)

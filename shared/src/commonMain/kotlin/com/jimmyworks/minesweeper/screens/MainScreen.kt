@@ -4,8 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
@@ -27,7 +30,7 @@ import com.jimmyworks.minesweeper.component.MainComponent
 import com.jimmyworks.minesweeper.styles.PaddingStyle
 import com.jimmyworks.minesweeper.styles.TextStyle
 import com.jimmyworks.minesweeper.views.Toast
-import com.jimmyworks.minesweeper.views.ToastMessage
+import com.jimmyworks.minesweeper.vo.ToastVO
 import minesweeper.shared.generated.resources.Res
 import minesweeper.shared.generated.resources.app_name
 import minesweeper.shared.generated.resources.count
@@ -40,6 +43,7 @@ import minesweeper.shared.generated.resources.x_less_notice
 import minesweeper.shared.generated.resources.y_less_notice
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.min
 
 /**
  * 主畫面
@@ -48,10 +52,11 @@ import org.jetbrains.compose.resources.stringResource
  */
 @Composable
 fun MainScreen(component: MainComponent) {
-    val x by component.x.subscribeAsState()
-    val y by component.y.subscribeAsState()
-    val minesCount by component.minesCount.subscribeAsState()
-    val toastMessage = component.toastMessage.subscribeAsState()
+
+    val x by component.x
+    val y by component.y
+    val minesCount by component.minesCount
+    val toastMessage = component.toastVO.subscribeAsState()
 
     // 提示訊息
     val xLessNotice = stringResource(Res.string.x_less_notice)
@@ -64,21 +69,21 @@ fun MainScreen(component: MainComponent) {
     /** 啟動遊戲 */
     fun gameStart() {
         if (component.x.value < 1) {
-            component.toastMessage.value = ToastMessage(xLessNotice)
+            component.toastVO.value = ToastVO(xLessNotice)
             return
         }
         if (component.y.value < 1) {
-            component.toastMessage.value = ToastMessage(yLessNotice)
+            component.toastVO.value = ToastVO(yLessNotice)
             return
         }
         if (component.minesCount.value >= component.x.value * component.y.value) {
-            component.toastMessage.value = ToastMessage(minesLessNotice)
+            component.toastVO.value = ToastVO(minesLessNotice)
             return
         }
         component.onGameStart()
     }
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Surface(modifier = Modifier.fillMaxSize().padding(WindowInsets.safeDrawing.asPaddingValues())) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -101,31 +106,26 @@ fun MainScreen(component: MainComponent) {
                 modifier = Modifier.padding(top = PaddingStyle.p1Style),
             )
             Row(
-                Modifier.padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically
             ) {
                 Text("X: ", style = TextStyle.h3Style)
                 OutlinedTextField(
                     value = x.toString(),
-                    onValueChange = { component.x.value = it.toIntOrNull() ?: 1 },
+                    onValueChange = { component.x.value = min(it.toIntOrNull() ?: 1, 30) },
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
+                        keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                     ),
                     textStyle = TextStyle.textStyle,
                     modifier = Modifier.padding(start = 5.dp).width(80.dp)
                 )
                 Text(
-                    "Y: ",
-                    style = TextStyle.h3Style,
-                    modifier = Modifier.padding(start = 18.dp)
+                    "Y: ", style = TextStyle.h3Style, modifier = Modifier.padding(start = 18.dp)
                 )
                 OutlinedTextField(
                     value = y.toString(),
-                    onValueChange = { component.y.value = it.toIntOrNull() ?: 1 },
+                    onValueChange = { component.y.value = min(it.toIntOrNull() ?: 1, 30) },
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
+                        keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                     ),
                     textStyle = TextStyle.textStyle,
                     modifier = Modifier.padding(start = 5.dp).width(80.dp)
@@ -137,8 +137,7 @@ fun MainScreen(component: MainComponent) {
                 modifier = Modifier.padding(top = 30.dp)
             )
             Row(
-                Modifier.padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(stringResource(Res.string.count) + ": ", style = TextStyle.h3Style)
                 OutlinedTextField(
@@ -147,13 +146,11 @@ fun MainScreen(component: MainComponent) {
                         component.minesCount.value = it.toIntOrNull() ?: 1
                     },
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done
+                        keyboardType = KeyboardType.Number, imeAction = ImeAction.Done
                     ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            keyboardController?.hide()
-                        }),
+                    keyboardActions = KeyboardActions(onDone = {
+                        keyboardController?.hide()
+                    }),
                     textStyle = TextStyle.textStyle,
                     modifier = Modifier.padding(start = 5.dp).width(100.dp)
                 )
@@ -166,8 +163,7 @@ fun MainScreen(component: MainComponent) {
                 Modifier.padding(top = 40.dp),
             ) {
                 Text(
-                    stringResource(Res.string.go) + " !",
-                    style = TextStyle.h3Style
+                    stringResource(Res.string.go) + " !", style = TextStyle.h3Style
                 )
             }
 
