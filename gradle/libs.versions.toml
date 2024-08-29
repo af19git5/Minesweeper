@@ -4,6 +4,7 @@ androidx-activity-compose = "1.9.1"
 compose = "1.7.0-rc01"
 compose-plugin = "1.6.11"
 compose-material3 = "1.2.1"
+compottie = "2.0.0-beta02"
 decompose = "3.1.0"
 essenty = "2.1.0"
 kotlin = "2.0.10"
@@ -15,6 +16,7 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 decompose-extensions-android = { module = "com.arkivanov.decompose:extensions-android", version.ref = "decompose" }

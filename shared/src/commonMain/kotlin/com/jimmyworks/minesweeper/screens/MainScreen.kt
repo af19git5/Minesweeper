@@ -166,7 +166,6 @@ fun MainScreen(component: MainComponent) {
                     stringResource(Res.string.go) + " !", style = TextStyle.h3Style
                 )
             }
-
         }
         Toast(toastMessage)
     }

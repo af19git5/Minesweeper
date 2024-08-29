@@ -42,7 +42,7 @@ fun AlertDialog(
             Text(
                 confirmButtonText,
                 style = TextStyle.miniTextStyle,
-                modifier = Modifier.padding(PaddingStyle.p4Style).clickable {
+                modifier = Modifier.padding(PaddingStyle.p3Style).clickable {
                     onClickConfirm()
                     onDismiss()
                 }
@@ -53,7 +53,7 @@ fun AlertDialog(
                 Text(
                     cancelButtonText,
                     style = TextStyle.miniTextStyle,
-                    modifier = Modifier.padding(PaddingStyle.p4Style).clickable {
+                    modifier = Modifier.padding(PaddingStyle.p3Style).clickable {
                         onDismiss()
                     }
                 )

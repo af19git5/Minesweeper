@@ -52,6 +52,7 @@ kotlin {
             api(libs.essenty.lifecycle)
             implementation(compose.components.resources)
             implementation(compose.material)
+            implementation(libs.compottie)
             implementation(libs.decompose.extensions.compose)
         }
         commonTest.dependencies {

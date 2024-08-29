@@ -41,6 +41,10 @@ import com.jimmyworks.minesweeper.styles.PaddingStyle
 import com.jimmyworks.minesweeper.styles.TextStyle
 import com.jimmyworks.minesweeper.views.AlertDialog
 import com.jimmyworks.minesweeper.vo.BlockVO
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec
+import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
+import io.github.alexzhirkevich.compottie.rememberLottieComposition
+import io.github.alexzhirkevich.compottie.rememberLottiePainter
 import kotlinx.coroutines.delay
 import minesweeper.shared.generated.resources.Res
 import minesweeper.shared.generated.resources.back
@@ -52,6 +56,7 @@ import minesweeper.shared.generated.resources.ic_mines
 import minesweeper.shared.generated.resources.ic_reset
 import minesweeper.shared.generated.resources.ic_tag
 import minesweeper.shared.generated.resources.reset
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.seconds
@@ -62,6 +67,7 @@ import kotlin.time.Duration.Companion.seconds
  * @author Jimmy Kang
  */
 @Composable
+@OptIn(ExperimentalResourceApi::class)
 fun GameScreen(component: GameComponent) {
 
     val lastMinesCount by component.lastMinesCount
@@ -71,6 +77,23 @@ fun GameScreen(component: GameComponent) {
     val rowList by component.rowList
     val second by component.second
     val scrollState = rememberScrollState()
+
+    // lottie動畫資源
+    val lottieBoom by rememberLottieComposition {
+        LottieCompositionSpec.JsonString(
+            Res.readBytes("files/lottie_boom.json").decodeToString()
+        )
+    }
+    val lottieCongratulations by rememberLottieComposition {
+        LottieCompositionSpec.JsonString(
+            Res.readBytes("files/lottie_congratulations.json").decodeToString()
+        )
+    }
+    // lottie播放狀態
+    val lottieProgress by animateLottieCompositionAsState(
+        if (isWin) lottieCongratulations else lottieBoom,
+        isPlaying = isGameOver
+    )
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -149,7 +172,17 @@ fun GameScreen(component: GameComponent) {
                 }
             }
         }
-        if (isShowDialog) {
+        if (isGameOver) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = rememberLottiePainter(
+                    composition = if (isWin) lottieCongratulations else lottieBoom,
+                    progress = { lottieProgress }
+                ),
+                contentDescription = "Lottie animation"
+            )
+        }
+        if (isShowDialog && lottieProgress.equals(1f)) {
             AlertDialog(
                 text = if (isWin) stringResource(Res.string.complete) else stringResource(Res.string.game_over),
                 enableCancelButton = false,

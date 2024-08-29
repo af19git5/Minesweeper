@@ -175,8 +175,8 @@ class GameComponent(
         }
         if (openCount == x * y - minesCount) {
             isGameOver.value = true
-            isShowDialog.value = true
             isWin.value = true
+            isShowDialog.value = true
         }
     }
 
