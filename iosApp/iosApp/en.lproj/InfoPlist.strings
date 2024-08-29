@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  iosApp
+
+  Created by 康晉嘉 on 2024/8/29.
+  Copyright © 2024 orgName. All rights reserved.
+*/
+"CFBundleDisplayName" = "Minesweeper";
