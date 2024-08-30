@@ -8,7 +8,8 @@ struct iOSApp: App {
 
 	var body: some Scene {
 		WindowGroup {
-			ContentView(rootComponent: appDelegate.rootComponent).ignoresSafeArea(.all)
+			ContentView(rootComponent: appDelegate.rootComponent)
+			    .ignoresSafeArea(.keyboard)
 		}
 	}
 }
