@@ -5,8 +5,7 @@
     <string name="number_of_mines">Number of mines</string>
     <string name="count">Count</string>
     <string name="go">Go</string>
-    <string name="x_less_notice">X can't less than 1.</string>
-    <string name="y_less_notice">Y can't less than 1.</string>
+    <string name="game_size_notice">X and Y must be between 1 and 30.</string>
     <string name="mines_over_notice">Mines count can't more than box count.</string>
     <string name="back">Back</string>
     <string name="reset">Reset</string>
