@@ -23,3 +23,19 @@
     * **composeResources** - compose共用資源
     * **kotlin** - 共用compose程式
   * **iosMain** - Ios compose用程式目錄
+
+## 畫面預覽
+
+### Android
+
+<p align="center">
+  <img src="preview/android_main.png" alt="主畫面" width="300" style="margin-right: 50px;"/>
+  <img src="preview/android_game.png" alt="遊戲畫面" width="300"/>
+</p>
+
+### Ios
+
+<p align="center">
+  <img src="preview/ios_main.png" alt="主畫面" width="300" style="margin-right: 50px;"/>
+  <img src="preview/ios_game.png" alt="遊戲畫面" width="300"/>
+</p>
