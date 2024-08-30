@@ -15,27 +15,23 @@
 
 * **androidApp** - Android app專案目錄
 * **gradle** - gradle資源
-  * **libs.versions.toml** - 引用第三方程式庫資訊
+    * **libs.versions.toml** - 引用第三方程式庫資訊
 * **iosApp** - Ios app專案目錄
 * **shared** - compose共用資源目錄
-  * **androidMain** - Android compose用程式目錄
-  * **commonMain** - 共用compose程式目錄
-    * **composeResources** - compose共用資源
-    * **kotlin** - 共用compose程式
-  * **iosMain** - Ios compose用程式目錄
+    * **androidMain** - Android compose用程式目錄
+    * **commonMain** - 共用compose程式目錄
+        * **composeResources** - compose共用資源
+        * **kotlin** - 共用compose程式
+    * **iosMain** - Ios compose用程式目錄
 
 ## 畫面預覽
 
 ### Android
 
-<p align="center">
-  <img src="preview/android_main.png" alt="主畫面" width="300" style="margin-right: 50px;"/>
-  <img src="preview/android_game.png" alt="遊戲畫面" width="300"/>
-</p>
+| ![主畫面](preview/android_main.png) | ![遊戲畫面](preview/android_game.png) |
+|:--------------------------------:|:---------------------------------:|
 
 ### Ios
 
-<p align="center">
-  <img src="preview/ios_main.png" alt="主畫面" width="300" style="margin-right: 50px;"/>
-  <img src="preview/ios_game.png" alt="遊戲畫面" width="300"/>
-</p>
+| ![主畫面](preview/ios_main.png) | ![遊戲畫面](preview/ios_game.png) |
+|:----------------------------:|:-----------------------------:|
