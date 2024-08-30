@@ -56,8 +56,8 @@ class GameComponent(
             }
         }
         isInitMines = false
-        isGameOver.value = false
         isWin.value = false
+        isGameOver.value = false
         isShowDialog.value = false
         lastMinesCount.value = minesCount
         second.value = 0
@@ -167,16 +167,14 @@ class GameComponent(
                     openCount++
                     if (block.isMines.value) {
                         isGameOver.value = true
-                        isShowDialog.value = true
                         return
                     }
                 }
             }
         }
         if (openCount == x * y - minesCount) {
-            isGameOver.value = true
             isWin.value = true
-            isShowDialog.value = true
+            isGameOver.value = true
         }
     }
 
@@ -231,6 +229,11 @@ class GameComponent(
         }
         block.isTag.value = !block.isTag.value
         countLastMines()
+    }
+
+    /** 開啟提示窗 */
+    fun showDialog() {
+        isShowDialog.value = true
     }
 
     /** 關閉提示窗 */

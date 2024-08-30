@@ -41,6 +41,7 @@ import com.jimmyworks.minesweeper.styles.PaddingStyle
 import com.jimmyworks.minesweeper.styles.TextStyle
 import com.jimmyworks.minesweeper.views.AlertDialog
 import com.jimmyworks.minesweeper.vo.BlockVO
+import io.github.alexzhirkevich.compottie.LottieCancellationBehavior
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 import io.github.alexzhirkevich.compottie.rememberLottieComposition
@@ -90,15 +91,23 @@ fun GameScreen(component: GameComponent) {
         )
     }
     // lottie播放狀態
-    val lottieProgress by animateLottieCompositionAsState(
+    val lottieProgress = animateLottieCompositionAsState(
         if (isWin) lottieCongratulations else lottieBoom,
-        isPlaying = isGameOver
+        isPlaying = isGameOver,
+        cancellationBehavior = LottieCancellationBehavior.OnIterationFinish
     )
 
     LaunchedEffect(Unit) {
         while (true) {
             delay(1.seconds)
             component.addSecond()
+        }
+    }
+
+    LaunchedEffect(isGameOver) {
+        // 監聽遊戲結束開啟彈出提醒
+        if (isGameOver) {
+            component.showDialog()
         }
     }
 
@@ -177,12 +186,16 @@ fun GameScreen(component: GameComponent) {
                 modifier = Modifier.fillMaxSize(),
                 painter = rememberLottiePainter(
                     composition = if (isWin) lottieCongratulations else lottieBoom,
-                    progress = { lottieProgress }
+                    progress = { lottieProgress.progress }
                 ),
-                contentDescription = "Lottie animation"
+                contentDescription = if (isWin) {
+                    stringResource(Res.string.complete)
+                } else {
+                    stringResource(Res.string.game_over)
+                }
             )
         }
-        if (isShowDialog && lottieProgress.equals(1f)) {
+        if (isShowDialog && lottieProgress.isAtEnd) {
             AlertDialog(
                 text = if (isWin) stringResource(Res.string.complete) else stringResource(Res.string.game_over),
                 enableCancelButton = false,
