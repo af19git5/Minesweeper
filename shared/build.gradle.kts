@@ -41,6 +41,8 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
+            isStatic = true
+            binaryOptions["bundleId"] = android.namespace + ".ios"
             export(libs.decompose)
             export(libs.essenty.lifecycle)
         }
