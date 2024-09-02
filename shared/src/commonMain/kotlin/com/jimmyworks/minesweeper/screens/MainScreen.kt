@@ -39,6 +39,7 @@ import minesweeper.shared.generated.resources.game_size
 import minesweeper.shared.generated.resources.game_size_notice
 import minesweeper.shared.generated.resources.go
 import minesweeper.shared.generated.resources.ic_mines
+import minesweeper.shared.generated.resources.mines_over_notice
 import minesweeper.shared.generated.resources.number_of_mines
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -54,18 +55,23 @@ fun MainScreen(component: MainComponent) {
     val x by component.x
     val y by component.y
     val minesCount by component.minesCount
-    val toastMessage = component.toastVO.subscribeAsState()
+    val toastMessage = component.toast.subscribeAsState()
 
     // 提示訊息
     val gameSizeNotice = stringResource(Res.string.game_size_notice)
+    val minesOverNotice = stringResource(Res.string.mines_over_notice)
 
     // 鍵盤控制器
     val keyboardController = LocalSoftwareKeyboardController.current
 
     /** 啟動遊戲 */
     fun gameStart() {
-        if (component.x.value !in 1..30 || component.y.value !in 1..30) {
-            component.toastVO.value = ToastVO(gameSizeNotice)
+        if (x !in 1..30 || y !in 1..30) {
+            component.toast.value = ToastVO(gameSizeNotice)
+            return
+        }
+        if (minesCount !in 0..<x * y) {
+            component.toast.value = ToastVO(minesOverNotice)
             return
         }
         component.onGameStart()
@@ -98,7 +104,7 @@ fun MainScreen(component: MainComponent) {
             ) {
                 Text(
                     "X: ", style = TextStyle.h3Style,
-                    color = if (component.x.value in 1..30) Colors.primary else Colors.error
+                    color = if (x in 1..30) Colors.primary else Colors.error
                 )
                 OutlinedTextField(
                     value = x.toString(),
@@ -106,7 +112,7 @@ fun MainScreen(component: MainComponent) {
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                     ),
-                    isError = component.x.value !in 1..30,
+                    isError = x !in 1..30,
                     textStyle = TextStyle.textStyle,
                     modifier = Modifier.padding(start = 5.dp).width(80.dp)
                 )
@@ -114,7 +120,7 @@ fun MainScreen(component: MainComponent) {
                     "Y: ",
                     style = TextStyle.h3Style,
                     modifier = Modifier.padding(start = PaddingStyle.p3Style),
-                    color = if (component.y.value in 1..30) Colors.primary else Colors.error
+                    color = if (y in 1..30) Colors.primary else Colors.error
                 )
                 OutlinedTextField(
                     value = y.toString(),
@@ -122,23 +128,24 @@ fun MainScreen(component: MainComponent) {
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                     ),
-                    isError = component.y.value !in 1..30,
+                    isError = y !in 1..30,
                     textStyle = TextStyle.textStyle,
                     modifier = Modifier.padding(start = 5.dp).width(80.dp)
                 )
             }
-            if (component.x.value !in 1..30 || component.y.value !in 1..30) {
+            if (x !in 1..30 || y !in 1..30) {
                 Text(
                     gameSizeNotice,
                     style = TextStyle.textStyle,
                     color = Colors.error,
-                    modifier = Modifier.padding(top = PaddingStyle.p5Style),
+                    modifier = Modifier.padding(top = PaddingStyle.p5Style)
                 )
             }
             Text(
                 stringResource(Res.string.number_of_mines),
                 style = TextStyle.h2Style,
-                modifier = Modifier.padding(top = 30.dp)
+                modifier = Modifier.padding(top = 30.dp),
+                color = if (y in 1..30) Colors.primary else Colors.error
             )
             Row(
                 Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically
@@ -147,7 +154,7 @@ fun MainScreen(component: MainComponent) {
                 OutlinedTextField(
                     value = minesCount.toString(),
                     onValueChange = {
-                        component.minesCount.value = it.toIntOrNull() ?: 1
+                        component.minesCount.value = it.toIntOrNull() ?: 0
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number, imeAction = ImeAction.Done
@@ -157,6 +164,14 @@ fun MainScreen(component: MainComponent) {
                     }),
                     textStyle = TextStyle.textStyle,
                     modifier = Modifier.padding(start = 5.dp).width(100.dp)
+                )
+            }
+            if (minesCount !in 0..<x * y) {
+                Text(
+                    minesOverNotice,
+                    style = TextStyle.textStyle,
+                    color = Colors.error,
+                    modifier = Modifier.padding(top = PaddingStyle.p5Style)
                 )
             }
             Button(

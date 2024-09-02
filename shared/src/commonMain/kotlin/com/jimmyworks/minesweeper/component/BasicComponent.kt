@@ -14,7 +14,7 @@ open class BasicComponent(
 ) : ComponentContext by componentContext {
 
     /** toast訊息 */
-    val toastVO = MutableValue(ToastVO())
+    val toast = MutableValue(ToastVO())
 
     /** 返回點選事件 */
     var onBackClicked: () -> Unit = {}

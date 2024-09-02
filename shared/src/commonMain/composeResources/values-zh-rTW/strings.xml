@@ -6,7 +6,7 @@
     <string name="count">數量</string>
     <string name="go">開始</string>
     <string name="game_size_notice">X及Y必須在1到30之間</string>
-    <string name="mines_over_notice">地雷數不可大於等於格子數</string>
+    <string name="mines_over_notice">地雷數不可大於或等於格子數</string>
     <string name="back">返回</string>
     <string name="reset">重置</string>
     <string name="confirm">確認</string>
