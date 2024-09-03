@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-/** sqlite檔案名稱 */
-actual val DATABASE_NAME = "minesweeper.db"
-
 /**
  * 取得Room DatabaseBuilder
  *

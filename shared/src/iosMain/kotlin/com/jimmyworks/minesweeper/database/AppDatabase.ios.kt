@@ -10,9 +10,6 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 
-/** sqlite檔案名稱 */
-actual val DATABASE_NAME = "minesweeper.db"
-
 /**
  * 取得Room DatabaseBuilder
  *

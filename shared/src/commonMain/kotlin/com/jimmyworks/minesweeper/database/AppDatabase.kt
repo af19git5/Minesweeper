@@ -8,7 +8,7 @@ import com.jimmyworks.minesweeper.database.dao.SettingDAO
 import com.jimmyworks.minesweeper.database.entity.SettingEntity
 
 /** sqlite檔案名稱 */
-expect val DATABASE_NAME: String
+internal const val DATABASE_NAME = "minesweeper.db"
 
 /**
  * App用資料庫
