@@ -50,14 +50,6 @@ kotlin {
         }
     }
 
-    targets.configureEach {
-        compilations.configureEach {
-            compileTaskProvider.get().compilerOptions {
-                freeCompilerArgs.addAll("-Xexpect-actual-classes")
-            }
-        }
-    }
-
     sourceSets.all {
         languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
     }
@@ -77,13 +69,18 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.get().compilerOptions {
+                freeCompilerArgs.addAll("-Xexpect-actual-classes")
+            }
+        }
+    }
 }
 
 dependencies {
-    add("kspAndroid", libs.room.compiler)
-    add("kspIosSimulatorArm64", libs.room.compiler)
-    add("kspIosX64", libs.room.compiler)
-    add("kspIosArm64", libs.room.compiler)
+    ksp(libs.room.compiler)
 }
 
 room {
