@@ -182,7 +182,7 @@ fun MainScreen(component: MainComponent) {
                 Text(
                     stringResource(Res.string.count) + ": ",
                     style = TextStyle.h3Style,
-                    color = if (y in 1..30) Colors.primary else Colors.error
+                    color = if (minesCount in 0..<x * y) Colors.primary else Colors.error
                 )
                 OutlinedTextField(
                     value = minesCount.toString(),
@@ -196,6 +196,7 @@ fun MainScreen(component: MainComponent) {
                     keyboardActions = KeyboardActions(onDone = {
                         keyboardController?.hide()
                     }),
+                    isError = minesCount !in 0..<x * y,
                     textStyle = TextStyle.textStyle,
                     modifier = Modifier.padding(start = 5.dp).width(100.dp)
                 )
