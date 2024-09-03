@@ -20,6 +20,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimator
 import com.arkivanov.essenty.backhandler.BackDispatcher
 import com.arkivanov.essenty.backhandler.BackHandler
 import com.jimmyworks.minesweeper.component.RootComponent
+import com.jimmyworks.minesweeper.database.getDatabaseBuilder
 import platform.UIKit.UIViewController
 
 @OptIn(ExperimentalDecomposeApi::class)
@@ -31,7 +32,7 @@ fun AppStart(rootComponent: RootComponent): UIViewController =
             backIcon = null,
             modifier = Modifier.fillMaxSize(),
         ) {
-            App(rootComponent = rootComponent)
+            App(rootComponent = rootComponent, getDatabaseBuilder().build())
         }
     }
 

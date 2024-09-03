@@ -1,7 +1,10 @@
 package com.jimmyworks.minesweeper.component
 
-import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
+import com.jimmyworks.minesweeper.database.AppDatabase
+import com.jimmyworks.minesweeper.database.entity.SettingEntity
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * 主畫面Component
@@ -10,14 +13,17 @@ import com.arkivanov.decompose.ComponentContext
  */
 class MainComponent(
     componentContext: ComponentContext,
+    private val appDatabase: AppDatabase,
     private val onGameStart: (Int, Int, Int) -> Unit
 ) : BasicComponent(componentContext) {
 
-    val x = mutableStateOf(9)
-    val y = mutableStateOf(9)
-    val minesCount = mutableStateOf(10)
+    val settingFlow = appDatabase.settingDAO().findFirst()
 
-    fun onGameStart() {
-        this.onGameStart(x.value, y.value, minesCount.value)
+    fun gameStart(x: Int, y: Int, minesCount: Int) {
+        this.onGameStart(x, y, minesCount)
+    }
+
+    suspend fun saveSetting(setting: SettingEntity) = coroutineScope {
+        launch { appDatabase.settingDAO().insert(setting) }
     }
 }

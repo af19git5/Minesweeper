@@ -10,6 +10,7 @@
   compose開發多平台開發框架。
 * [**Decompose**](https://github.com/arkivanov/Decompose) - 簡化compose可以將ui及邏輯代碼分離，並優化了頁面導向及生命週期綁定。
 * [**Compottie**](https://github.com/alexzhirkevich/compottie) - compose使用Lottie動畫的引擎。
+* [**Room (Kotlin Multiplatform)**](https://developer.android.com/kotlin/multiplatform/room?hl=zh-tw) - Kotlin Multiplatform用sqlite orm框架，可參考Android room。
 
 ## 目錄結構
 

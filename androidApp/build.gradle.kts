@@ -44,5 +44,6 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.decompose)
     implementation(libs.decompose.extensions.android)
+    implementation(libs.room.runtime.android)
     debugImplementation(libs.compose.ui.tooling)
 }

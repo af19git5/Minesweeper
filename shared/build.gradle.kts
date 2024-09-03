@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -48,6 +50,18 @@ kotlin {
         }
     }
 
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.get().compilerOptions {
+                freeCompilerArgs.addAll("-Xexpect-actual-classes")
+            }
+        }
+    }
+
+    sourceSets.all {
+        languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+    }
+
     sourceSets {
         commonMain.dependencies {
             api(libs.decompose)
@@ -56,9 +70,22 @@ kotlin {
             implementation(compose.material)
             implementation(libs.compottie)
             implementation(libs.decompose.extensions.compose)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
+}
+
+dependencies {
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

@@ -18,7 +18,12 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -27,11 +32,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.jimmyworks.minesweeper.component.MainComponent
+import com.jimmyworks.minesweeper.database.entity.SettingEntity
 import com.jimmyworks.minesweeper.styles.Colors
 import com.jimmyworks.minesweeper.styles.PaddingStyle
 import com.jimmyworks.minesweeper.styles.TextStyle
 import com.jimmyworks.minesweeper.views.Toast
 import com.jimmyworks.minesweeper.vo.ToastVO
+import kotlinx.coroutines.runBlocking
 import minesweeper.shared.generated.resources.Res
 import minesweeper.shared.generated.resources.app_name
 import minesweeper.shared.generated.resources.count
@@ -52,9 +59,11 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MainScreen(component: MainComponent) {
 
-    val x by component.x
-    val y by component.y
-    val minesCount by component.minesCount
+    val setting by component.settingFlow.collectAsState(initial = SettingEntity())
+    var x by remember { mutableStateOf(setting.x) }
+    var y by remember { mutableStateOf(setting.y) }
+    var minesCount by remember { mutableStateOf(setting.minesCount) }
+    var isEdit by remember { mutableStateOf(false) }
     val toastMessage = component.toast.subscribeAsState()
 
     // 提示訊息
@@ -64,17 +73,32 @@ fun MainScreen(component: MainComponent) {
     // 鍵盤控制器
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    // 監聽資料庫數值異動時更新資料
+    LaunchedEffect(setting) {
+        // 如果已修改過就不跟著資料庫異動資料
+        if (!isEdit) {
+            x = setting.x
+            y = setting.y
+            minesCount = setting.minesCount
+        }
+    }
+
     /** 啟動遊戲 */
-    fun gameStart() {
+    fun gameStart() = runBlocking {
         if (x !in 1..30 || y !in 1..30) {
             component.toast.value = ToastVO(gameSizeNotice)
-            return
+            return@runBlocking
         }
         if (minesCount !in 0..<x * y) {
             component.toast.value = ToastVO(minesOverNotice)
-            return
+            return@runBlocking
         }
-        component.onGameStart()
+
+        setting.x = x
+        setting.y = y
+        setting.minesCount = minesCount
+        component.saveSetting(setting)
+        component.gameStart(x, y, minesCount)
     }
 
     Surface(modifier = Modifier.fillMaxSize().padding(WindowInsets.safeDrawing.asPaddingValues())) {
@@ -108,7 +132,10 @@ fun MainScreen(component: MainComponent) {
                 )
                 OutlinedTextField(
                     value = x.toString(),
-                    onValueChange = { component.x.value = it.toIntOrNull() ?: 0 },
+                    onValueChange = {
+                        isEdit = true
+                        x = it.toIntOrNull() ?: 0
+                    },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                     ),
@@ -124,7 +151,10 @@ fun MainScreen(component: MainComponent) {
                 )
                 OutlinedTextField(
                     value = y.toString(),
-                    onValueChange = { component.y.value = it.toIntOrNull() ?: 0 },
+                    onValueChange = {
+                        isEdit = true
+                        y = it.toIntOrNull() ?: 0
+                    },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                     ),
@@ -145,16 +175,20 @@ fun MainScreen(component: MainComponent) {
                 stringResource(Res.string.number_of_mines),
                 style = TextStyle.h2Style,
                 modifier = Modifier.padding(top = 30.dp),
-                color = if (y in 1..30) Colors.primary else Colors.error
             )
             Row(
                 Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(stringResource(Res.string.count) + ": ", style = TextStyle.h3Style)
+                Text(
+                    stringResource(Res.string.count) + ": ",
+                    style = TextStyle.h3Style,
+                    color = if (y in 1..30) Colors.primary else Colors.error
+                )
                 OutlinedTextField(
                     value = minesCount.toString(),
                     onValueChange = {
-                        component.minesCount.value = it.toIntOrNull() ?: 0
+                        isEdit = true
+                        minesCount = it.toIntOrNull() ?: 0
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number, imeAction = ImeAction.Done

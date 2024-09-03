@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import com.arkivanov.decompose.retainedComponent
 import com.jimmyworks.minesweeper.App
 import com.jimmyworks.minesweeper.component.RootComponent
+import com.jimmyworks.minesweeper.database.getDatabaseBuilder
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +15,7 @@ class MainActivity : ComponentActivity() {
             RootComponent(it)
         }
         setContent {
-            App(root)
+            App(root, getDatabaseBuilder(this).build())
         }
     }
 }
