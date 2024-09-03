@@ -4,6 +4,8 @@
 
 就是個踩地雷遊戲，可運行在Android及IOS環境上。
 
+該專案是使用**Kotlin Multiplatform**框架開發的範例專案，可參考該專案有引用套件、目錄結構及撰寫架構來學習如何撰寫一個基本的雙平台APP。
+
 ## 使用套件及開發框架
 
 * [**Kotlin Multiplatform**](https://kotlinlang.org/docs/multiplatform.html) - 可用jetpack
