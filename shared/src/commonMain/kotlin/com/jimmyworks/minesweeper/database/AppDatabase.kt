@@ -10,9 +10,7 @@ import com.jimmyworks.minesweeper.database.entity.SettingEntity
 /** sqlite檔案名稱 */
 internal const val DATABASE_NAME = "minesweeper.db"
 
-/**
- * App用資料庫
- */
+/** App用資料庫 */
 @Database(
     version = 1,
     entities = [
